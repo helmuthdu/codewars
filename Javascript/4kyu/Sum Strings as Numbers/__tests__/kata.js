@@ -12,7 +12,7 @@ function msg(a, b) {
 
 const assert = (a, b, ans) => {
   returned = sumStrings(a, b);
-  expect(returned, ans, msg(a, b, returned));
+  expect(returned).toEqual(ans, msg(a, b, returned));
 };
 
 describe('Sum Strings as Numbers', () => {
