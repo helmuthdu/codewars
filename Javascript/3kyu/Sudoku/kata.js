@@ -1,4 +1,4 @@
-const backtrack = (matrix, i, j, k) => {
+const check = (matrix, i, j, k) => {
   for (let row = 0; row <= 8; row++) {
     if (row !== i && matrix[row][j] === k) {
       return false;
@@ -32,7 +32,7 @@ const solve = matrix => {
       }
 
       for (let val = 1; val <= 9; val++) {
-        if (backtrack(matrix, row, col, val)) {
+        if (check(matrix, row, col, val)) {
           matrix[row][col] = val;
           if (solve(matrix)) {
             return true;
