@@ -21,7 +21,6 @@ const backtrack = (matrix, i, j, k) => {
       }
     }
   }
-
   return true;
 };
 
@@ -33,10 +32,9 @@ const solve = matrix => {
       }
 
       for (let val = 1; val <= 9; val++) {
-        if (backtrack(matrix, row, col, val) === true) {
+        if (backtrack(matrix, row, col, val)) {
           matrix[row][col] = val;
-          const b = solve(matrix);
-          if (b === true) {
+          if (solve(matrix)) {
             return true;
           }
           matrix[row][col] = 0;
@@ -56,7 +54,7 @@ export const sudoku = grid => {
 
 // clever solutions:
 
-// const sudoku = rows => {
+// export const sudoku = rows => {
 //   const cols = _ => rows.map((_, i) => rows.map((_, j) => rows[j][i]));
 //
 //   const square = (i, j) => {

@@ -84,7 +84,7 @@ describe('Sudoku', function() {
     }
     return temp.join('');
   }
-  for (var i in sp) {
+  for (let i in sp) {
     it('Puzzle ' + (parseInt(i) + 2), function() {
       expect(twod2str(sudoku(str2twod(sp[i][0])))).toEqual(sp[i][1]);
     });
