@@ -1,11 +1,10 @@
-const isPrime = input => {
-  let start = 2;
+function isPrime(input) {
   const limit = Math.sqrt(input);
-  while (start <= limit) {
-    if (input % start++ < 1) return false;
+  for (let start = 2; start <= limit; start++) {
+    if (input % start === 0) return false;
   }
   return input > 1;
-};
+}
 
 export class Primes {
   static stream(start = 0, end = Infinity, step = 1) {
