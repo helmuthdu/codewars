@@ -1,45 +1,55 @@
-const getArgs = func =>
-  func
-    .toString()
-    .replace(/[/][/].*$/gm, '')
-    .replace(/\s+/g, '')
-    .replace(/[/][*][^/*]*[*][/]/g, '')
-    .split('(')[1]
-    .split(')')[0]
-    .split(',');
-
 export function defaultArguments(func, params) {
-  const defaultArgs = [];
-
-  const currentArgNames = getArgs(func);
-
-  if (!this.argNames || currentArgNames[0] !== '') {
-    this.argNames = currentArgNames;
-  }
-
-  for (let i = 0; i < this.argNames.length; i++) {
-    const defaultParam = params[this.argNames[i]];
-
-    if (defaultParam) defaultArgs[i] = params[this.argNames[i]];
-  }
-
-  return function() {
-    const currentArgs = defaultArgs.slice();
-    const argsArray = [].slice.call(arguments);
-
-    for (let i = 0; i < argsArray.length; i++) {
-      const newArg = argsArray[i];
-
-      currentArgs[i] = newArg;
-    }
-
-    return func.apply(null, currentArgs);
-  };
+  const defs = func
+    .toString()
+    .replace(/(\/\/[^\n]+)|[\s\n]+|\/\*.*?\*\//gm, '')
+    .match(/\(([^)]*)\)/)[1]
+    .split(',')
+    .map(e => params[e]);
+  const wrap = (...args) => func(...args, ...defs.slice(args.length));
+  return (wrap.toString = () => func.toString()), wrap;
 }
 
+// alternative solutions
 
+// const getArgs = func =>
+//   func
+//     .toString()
+//     .replace(/[/][/].*$/gm, '')
+//     .replace(/\s+/g, '')
+//     .replace(/[/][*][^/*]*[*][/]/g, '')
+//     .split('(')[1]
+//     .split(')')[0]
+//     .split(',');
+//
+// export function defaultArguments(func, params) {
+//   const defaultArgs = [];
+//
+//   const currentArgNames = getArgs(func);
+//
+//   if (!this.argNames || currentArgNames[0] !== '') {
+//     this.argNames = currentArgNames;
+//   }
+//
+//   for (let i = 0; i < this.argNames.length; i++) {
+//     const defaultParam = params[this.argNames[i]];
+//
+//     if (defaultParam) defaultArgs[i] = params[this.argNames[i]];
+//   }
+//
+//   return function() {
+//     const currentArgs = defaultArgs.slice();
+//     const argsArray = [].slice.call(arguments);
+//
+//     for (let i = 0; i < argsArray.length; i++) {
+//       const newArg = argsArray[i];
+//
+//       currentArgs[i] = newArg;
+//     }
+//
+//     return func.apply(null, currentArgs);
+//   };
+// }
 
-// alternative solution
 // export function defaultArguments(func, params) {
 //   const names =
 //     func.names ||
