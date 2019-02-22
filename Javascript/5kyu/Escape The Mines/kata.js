@@ -1,7 +1,7 @@
 export function solve(map, miner, exit, path = []) {
   if (!map[miner.x] || !map[miner.x][miner.y]) return false;
   if (miner.x === exit.x && miner.y === exit.y) return path;
-  map = map.map(v => v.slice());
+  map = map.map(v => [...v]);
   map[miner.x][miner.y] = false;
   return (
     solve(
