@@ -1,6 +1,8 @@
 export const missingInteger = (arr) => {
   let result = 1;
-  while(arr.includes(result)) {
+  const list = arr.reduce((acc, val) => ({...acc, [val]: true}), {});
+
+  while(list[result]) {
     result++;
   }
   return result;
